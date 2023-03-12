@@ -1,7 +1,13 @@
-<h1>Add a movie to <%= @list.name %> list</h1>
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-lg-6">
+      <h1>Add a movie to <%= @list.name %> list</h1>
 
-<%= simple_form_for [@list, @bookmark] do |f| %>
-  <%= f.input :comment %>
-  <%= f.association :movie %>
-  <%= f.submit  "Add movie", class: "btn btn-primary" %>
-<% end %>
+      <%= simple_form_for [@list, @bookmark] do |f| %>
+        <%= f.input :comment %>
+        <%= f.association :movie %>
+        <%= f.submit  "Add movie", class: "btn btn-primary" %>
+      <% end %>
+    </div>
+  </div>
+</div>

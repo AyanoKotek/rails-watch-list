@@ -1,11 +1,21 @@
-<h1>All of the lists</h1>
+<div class="banner" style="background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url(https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8bW92aWV8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60);">
+  <div class="container banner-purple">
+    <p><span  class="banner-font" data-controller="typed-js"></span></p>
+    <p>Add movies on your original list! </p>
+    <%= link_to "Add your list",  new_list_path, class: "btn btn-flat font-bold" %>
+  </div>
+</div>
 
-
-  <% @lists.each do |list| %>
-    <div class="card-category"
-      style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('<%= cl_image_path list.photo.key, height: 300, crop: :fill %>')">
-      <%= link_to list.name, list_path(list), class: "text-white  text-decoration-none" %>
-    </div>
-  <% end %>
-
-<%= link_to "Add a list",  new_list_path, class: "btn btn-primary m-3" %>
+<div class="container">
+  <div class="cards">
+    <% @lists.each do |list| %>
+      <div class="card shadow p-3 mb-5 bg-white rounded" style="width: 18rem;">
+        <%= cl_image_tag list.photo.key, crop: :fill, height: 170, class: "object-fit-cover" %>
+        <div class="card-body  text-center">
+          <h5 class="card-title font-bold"><%= list.name %></h5>
+          <%= link_to "See", list_path(list), class: "btn btn-outline-secondary" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

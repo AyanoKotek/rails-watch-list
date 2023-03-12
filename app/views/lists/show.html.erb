@@ -1,24 +1,52 @@
-<div class="card-category" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('<%= cl_image_path @list.photo.key %>">
-  <%= @list.name %>
+<div class="card-category mb-3" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('<%= cl_image_path @list.photo.key %>')">
+   <%= @list.name %>
 </div>
 
-<%= link_to "Add a movie to this list",  new_list_bookmark_path(@list), class: "btn btn-success" %>
+<%= link_to "Add a movie to this list",  new_list_bookmark_path(@list), class: "btn btn-success m-4" %>
 
-<div class="row my-2 margin-left">
-    <% @list.movies.each do |movie| %>
-      <% bookmark = Bookmark.find_by(list: @list, movie: movie) %>
-      <div class="col-12 col-sm-6 mb-4" data-aos="zoom-in">
-        <div class="bg-white rounded shadow h-100">
-          <%= image_tag movie.poster_url, alt: movie.title, class: "movie-img rounded-top" %>
-          <div class="p-3 rounded-bottom d-flex flex-column">
-            <strong><%= movie.title %> <span class="text-muted font-weight-normal">• <%= movie.rating %> <i class="fas fa-star star-yellow"></i></span></strong>
-            <small class="text-muted"><%= movie.overview %></small>
-            <div class="d-flex align-items-end justify-content-between pt-4">
-              <div>
-                <i class="fas fa-quote-left me-2"></i><small class="flex-grow-1"><%= bookmark.comment %> <i class="fa fa-quote-right" aria-hidden="true"></i></small>
-              </div>
-            </div>
-          </div>
+<div class="container">
+  <% @list.movies.each do |movie| %>
+    <% bookmark = Bookmark.find_by(list: @list, movie: movie) %>
+    <div class="card-product">
+      <%# <div class="card shadow p-3 mb-5 bg-white rounded" style="width: 18rem;"> %>
+      <%= image_tag movie.poster_url, alt: movie.title, class: "movie-img rounded-top" %>
+      <div class="card-product-infos">
+        <h2><%= movie.title %></h2>
+        <span class="text-muted font-weight-normal"> <%= movie.rating %> <i class="fas fa-star star-yellow"></i></span>
+        <p><%= movie.overview %></p>
+        <i class="fas fa-quote-left me-2"></i><small class="flex-grow-1"><%= bookmark.comment %> <i class="fa fa-quote-right" aria-hidden="true"></i></small>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<div class="container mb-5">
+  <div class="row">
+    <div class="col-12 col-lg-6">
+      <h3>Reviews</h3>
+      <% if @list.reviews.empty? %>
+        <small><em class="text-muted">Be the first one to review this list</em></small>
+      <% end %>
+      <% @list.reviews.each do |review| %>
+        <div>
+          <% review.rating.times do %>
+            <i class="fas fa-star star-yellow"></i>
+          <% end %>
+          <small><em class="text-muted"><%= distance_of_time_in_words_to_now(review.created_at) %> ago</em></small>
+          <p class="mb-0"><%= review.comment %></p>
         </div>
-    <% end %>
+        <hr>
+      <% end %>
+    </div>
+    <div class="col-12 col-lg-6">
+      <div class="bg-white p-3 rounded">
+        <h5>Add your review</h5>
+        <%= simple_form_for [@list, @review] do |f|%>
+          <%= f.input :comment, placeholder: "Add your review for this list." %>
+          <%= f.input :rating, as: :select, collection: (1..5) %>
+          <%= f.submit class: "btn btn-flat"%>
+        <% end %>
+      </div>
+    </div>
+  </div>
 </div>
